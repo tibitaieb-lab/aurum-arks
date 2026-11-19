@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:ExperimentReference",
+  "title": "ExperimentReference — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "ExperimentReference"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "reference_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "provisional": {
+      "const": true
+    },
+    "owner": {
+      "const": "AURUM"
+    },
+    "opaque_reference": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "purpose": {
+      "const": "FUTURE_REFERENCE_ONLY"
+    },
+    "downstream_status": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/downstreamFlags"
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "reference_id",
+    "provisional",
+    "owner",
+    "opaque_reference",
+    "purpose",
+    "downstream_status"
+  ],
+  "additionalProperties": false
+}

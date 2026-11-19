@@ -1,0 +1,22 @@
+[project]
+name = "aurum-arks"
+version = "0.1.1"
+description = "ARKS : corpus documentaire local réel (TXT/PDF), index hybride lexical + dense ONNX local, sans génération IA"
+requires-python = ">=3.14,<3.15"
+dependencies = ["jsonschema[format-nongpl]==4.26.0", "referencing==0.37.0"]
+
+[project.optional-dependencies]
+rag = ["onnxruntime==1.30.0", "tokenizers==0.23.2", "numpy==2.5.3", "sentencepiece==0.2.1"]
+test-ui = ["playwright==1.63.0"]
+
+[tool.arks]
+schema-version = "0.1"
+qualification-scope = "J0A fixtures only"
+pdf-environments = [".venv_pdf", ".venv_pdf_passive", ".venv_pdf_native"]
+
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

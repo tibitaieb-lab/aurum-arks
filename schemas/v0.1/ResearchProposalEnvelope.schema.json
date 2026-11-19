@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:ResearchProposalEnvelope",
+  "title": "ResearchProposalEnvelope — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "ResearchProposalEnvelope"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "proposal_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "provisional": {
+      "const": true
+    },
+    "human_formulation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "supposed_mechanism": {
+      "type": "string",
+      "minLength": 1
+    },
+    "idea_provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "creator": {
+            "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+          },
+          "origin": {
+            "enum": [
+              "HUMAN_CONJECTURE",
+              "ATTRIBUTED_PREMISE"
+            ]
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "creator",
+          "origin",
+          "reference"
+        ],
+        "additionalProperties": false
+      },
+      "uniqueItems": true
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+      },
+      "uniqueItems": true
+    },
+    "declared_adaptations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "downstream_status": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/downstreamFlags"
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "proposal_id",
+    "provisional",
+    "human_formulation",
+    "supposed_mechanism",
+    "idea_provenance",
+    "evidence_ids",
+    "declared_adaptations",
+    "open_questions",
+    "downstream_status"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:ClaimRecord",
+  "title": "ClaimRecord — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "ClaimRecord"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "claim_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "creator": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "HUMAN",
+            "COMPONENT"
+          ]
+        },
+        "identifier": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+        },
+        "creation_reference": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "identifier",
+        "creation_reference"
+      ],
+      "additionalProperties": false
+    },
+    "epistemic_status": {
+      "enum": [
+        "ATTRIBUTED_ASSERTION",
+        "OBSERVATION",
+        "INTERPRETATION",
+        "ORIGINAL_CONJECTURE"
+      ]
+    },
+    "truth_status": {
+      "const": "NOT_ESTABLISHED"
+    },
+    "evidence_links": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/evidenceLink"
+      },
+      "uniqueItems": true
+    },
+    "verdicts": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/verdicts"
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "claim_id",
+    "text",
+    "creator",
+    "epistemic_status",
+    "truth_status",
+    "evidence_links",
+    "verdicts"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "epistemic_status": {
+            "const": "ATTRIBUTED_ASSERTION"
+          }
+        },
+        "required": [
+          "epistemic_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "evidence_links": {
+            "minItems": 1,
+            "contains": {
+              "type": "object",
+              "properties": {
+                "relation": {
+                  "const": "ATTRIBUTED_TO"
+                }
+              },
+              "required": [
+                "relation"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:NumericFact",
+  "title": "NumericFact — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "NumericFact"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "numeric_fact_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "evidence_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "expression_original": {
+      "type": "string",
+      "minLength": 1
+    },
+    "normalized_value": {
+      "oneOf": [
+        {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/decimal"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "unit": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "enum": [
+                "PERCENT",
+                "BASIS_POINT",
+                "COUNT",
+                "CURRENCY",
+                "RATIO"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "currency": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}(?![\\s\\S])"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "scale": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "enum": [
+                "ONE",
+                "THOUSAND",
+                "MILLION",
+                "BILLION"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "entity": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownText"
+    },
+    "metric": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownText"
+    },
+    "period": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/period"
+    },
+    "revision": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "enum": [
+                "ORIGINAL",
+                "REVISED"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "normalization": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_EVALUATED",
+            "DECLARED_FOR_TEST"
+          ]
+        },
+        "rule_version": {
+          "enum": [
+            null,
+            "DECIMAL_LITERAL_IDENTITY_V1"
+          ]
+        },
+        "input_evidence_id": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+        },
+        "input_expression": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "status",
+        "rule_version",
+        "input_evidence_id",
+        "input_expression"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "numeric_fact_id",
+    "evidence_id",
+    "expression_original",
+    "normalized_value",
+    "unit",
+    "currency",
+    "scale",
+    "entity",
+    "metric",
+    "period",
+    "revision",
+    "normalization"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "normalized_value": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "normalized_value"
+        ]
+      },
+      "then": {
+        "properties": {
+          "normalization": {
+            "properties": {
+              "status": {
+                "const": "NOT_EVALUATED"
+              },
+              "rule_version": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "normalized_value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "normalized_value"
+        ]
+      },
+      "then": {
+        "properties": {
+          "normalization": {
+            "properties": {
+              "status": {
+                "const": "DECLARED_FOR_TEST"
+              },
+              "rule_version": {
+                "const": "DECIMAL_LITERAL_IDENTITY_V1"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:EvidenceUnit",
+  "title": "EvidenceUnit — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "EvidenceUnit"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "evidence_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "source_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "document_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "document_version": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "content_exact": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 65536
+    },
+    "content_type": {
+      "enum": [
+        "TEXT_UTF8",
+        "RESERVED_NON_TEXT"
+      ]
+    },
+    "excerpt_sha256": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/sha256"
+    },
+    "locator": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "RAW_UTF8_BYTE_RANGE"
+            },
+            "reference_frame": {
+              "const": "RAW_BYTES"
+            },
+            "start": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "start_line": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "end_line": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "physical_page": {
+              "type": "null"
+            },
+            "printed_page_label": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "kind",
+            "reference_frame",
+            "start",
+            "end",
+            "start_line",
+            "end_line",
+            "physical_page",
+            "printed_page_label"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "EXTRACTION_RESERVED"
+            },
+            "reference_frame": {
+              "const": "VERSIONED_EXTRACTION"
+            },
+            "extraction_id": {
+              "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+            },
+            "extraction_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "parameters_sha256": {
+              "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/sha256"
+            },
+            "original_source_sha256": {
+              "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/sha256"
+            },
+            "physical_page": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "printed_page_label": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "resolution_status": {
+              "const": "NOT_IMPLEMENTED"
+            }
+          },
+          "required": [
+            "kind",
+            "reference_frame",
+            "extraction_id",
+            "extraction_version",
+            "parameters_sha256",
+            "original_source_sha256",
+            "physical_page",
+            "printed_page_label",
+            "resolution_status"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "transformation": {
+      "type": "object",
+      "properties": {
+        "transformation_id": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+        },
+        "rule_version": {
+          "enum": [
+            "RAW_UTF8_SLICE_V1",
+            "NOT_IMPLEMENTED"
+          ]
+        },
+        "normalization": {
+          "const": "NONE"
+        }
+      },
+      "required": [
+        "transformation_id",
+        "rule_version",
+        "normalization"
+      ],
+      "additionalProperties": false
+    },
+    "quality_alerts": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "SYNTHETIC_FIXTURE",
+          "UNTRUSTED_INSTRUCTIONS",
+          "EXTRACTION_NOT_IMPLEMENTED",
+          "ENCODING_UNCERTAIN"
+        ]
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "evidence_id",
+    "source_id",
+    "document_id",
+    "document_version",
+    "content_exact",
+    "content_type",
+    "excerpt_sha256",
+    "locator",
+    "transformation",
+    "quality_alerts"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "locator": {
+            "properties": {
+              "kind": {
+                "const": "RAW_UTF8_BYTE_RANGE"
+              }
+            }
+          }
+        },
+        "required": [
+          "locator"
+        ]
+      },
+      "then": {
+        "properties": {
+          "content_type": {
+            "const": "TEXT_UTF8"
+          },
+          "transformation": {
+            "properties": {
+              "rule_version": {
+                "const": "RAW_UTF8_SLICE_V1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator": {
+            "properties": {
+              "kind": {
+                "const": "EXTRACTION_RESERVED"
+              }
+            }
+          }
+        },
+        "required": [
+          "locator"
+        ]
+      },
+      "then": {
+        "properties": {
+          "content_type": {
+            "const": "RESERVED_NON_TEXT"
+          },
+          "transformation": {
+            "properties": {
+              "rule_version": {
+                "const": "NOT_IMPLEMENTED"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

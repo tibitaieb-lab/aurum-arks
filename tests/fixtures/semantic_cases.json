@@ -1,0 +1,51 @@
+{
+  "synthetic": true,
+  "fixture_version": "1",
+  "status": "ANNOTATIONS_PREPARED_NOT_EXECUTED",
+  "holdout": false,
+  "source_evidence": "ev-lf",
+  "cases": [
+    {
+      "id": "SEM_SIGN",
+      "claim": "La métrique vaut +2.5 %.",
+      "annotation": "Signe inversé par rapport à -2.5. Une règle numérique devra comparer les signes.",
+      "check_kind": "NUMERIC_RULE_PLANNED",
+      "result": "NOT_EVALUATED"
+    },
+    {
+      "id": "SEM_UNIT",
+      "claim": "La métrique vaut -2.5 points de base.",
+      "annotation": "Unité remplacée : pourcentage et point de base distincts. Aucun convertisseur implémenté.",
+      "check_kind": "NUMERIC_RULE_PLANNED",
+      "result": "NOT_EVALUATED"
+    },
+    {
+      "id": "SEM_PERIOD",
+      "claim": "En 2025, la métrique vaut -2.5 % si C.",
+      "annotation": "Période différente de 2024.",
+      "check_kind": "HUMAN_REVIEW_REQUIRED",
+      "result": "NOT_EVALUATED"
+    },
+    {
+      "id": "SEM_CAUSE",
+      "claim": "La condition C cause une baisse de la métrique.",
+      "annotation": "Le texte conditionnel n'établit aucune causalité.",
+      "check_kind": "HUMAN_REVIEW_REQUIRED",
+      "result": "NOT_EVALUATED"
+    },
+    {
+      "id": "SEM_CONDITION",
+      "claim": "En 2024, la métrique vaut toujours -2.5 %.",
+      "annotation": "Condition C supprimée.",
+      "check_kind": "HUMAN_REVIEW_REQUIRED",
+      "result": "NOT_EVALUATED"
+    },
+    {
+      "id": "SEM_UNSUPPORTED",
+      "claim": "La citation est exacte ; cette stratégie sera rentable.",
+      "annotation": "Une citation exacte ne soutient pas la conclusion financière.",
+      "check_kind": "HUMAN_REVIEW_REQUIRED",
+      "result": "NOT_EVALUATED"
+    }
+  ]
+}

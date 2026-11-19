@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:common",
+  "title": "Definitions communes ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,95}(?![\\s\\S])"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decimal": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?(?![\\s\\S])"
+    },
+    "knownText": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "knownDate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "knownTime": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "period": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "rights": {
+      "type": "object",
+      "properties": {
+        "storage": {
+          "enum": [
+            "ALLOW",
+            "DENY",
+            "UNKNOWN"
+          ]
+        },
+        "consultation": {
+          "enum": [
+            "ALLOW",
+            "DENY",
+            "UNKNOWN"
+          ]
+        },
+        "provider_submission": {
+          "enum": [
+            "ALLOW",
+            "DENY",
+            "UNKNOWN"
+          ]
+        },
+        "redistribution": {
+          "enum": [
+            "ALLOW",
+            "DENY",
+            "UNKNOWN"
+          ]
+        },
+        "basis": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "storage",
+        "consultation",
+        "provider_submission",
+        "redistribution",
+        "basis"
+      ],
+      "additionalProperties": false
+    },
+    "downstreamFlags": {
+      "type": "object",
+      "properties": {
+        "AURUM_MAPPING": {
+          "const": "PENDING_HYPOTHESIS_ROOM_AUDIT"
+        },
+        "AURUM_BRIDGE": {
+          "const": "NOT_IMPLEMENTED"
+        },
+        "BT_LAUNCH_ALLOWED": {
+          "const": false
+        },
+        "AX_AV_IMPORT": {
+          "const": "NOT_IMPLEMENTED"
+        },
+        "AX_AV_PROMOTION": {
+          "const": "NOT_IMPLEMENTED"
+        }
+      },
+      "required": [
+        "AURUM_MAPPING",
+        "AURUM_BRIDGE",
+        "BT_LAUNCH_ALLOWED",
+        "AX_AV_IMPORT",
+        "AX_AV_PROMOTION"
+      ],
+      "additionalProperties": false
+    },
+    "evidenceLink": {
+      "type": "object",
+      "properties": {
+        "evidence_id": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+        },
+        "relation": {
+          "enum": [
+            "ATTRIBUTED_TO",
+            "PREMISE",
+            "CONTRADICTS",
+            "CONTEXT"
+          ]
+        }
+      },
+      "required": [
+        "evidence_id",
+        "relation"
+      ],
+      "additionalProperties": false
+    },
+    "verdicts": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "enum": [
+            "NOT_EVALUATED",
+            "VALID",
+            "INVALID"
+          ]
+        },
+        "raw_bytes": {
+          "enum": [
+            "NOT_EVALUATED",
+            "VERIFIED",
+            "INVALID"
+          ]
+        },
+        "locator": {
+          "enum": [
+            "NOT_EVALUATED",
+            "RESOLVED",
+            "INVALID"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "NOT_EVALUATED",
+            "EXPLICIT_CONSTRAINTS_VERIFIED",
+            "INVALID"
+          ]
+        },
+        "semantic_faithfulness": {
+          "const": "NOT_EVALUATED"
+        },
+        "methodological_admissibility": {
+          "const": "NOT_EVALUATED"
+        }
+      },
+      "required": [
+        "schema",
+        "raw_bytes",
+        "locator",
+        "attribution",
+        "semantic_faithfulness",
+        "methodological_admissibility"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

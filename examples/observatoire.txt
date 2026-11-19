@@ -1,0 +1,4 @@
+Exemple entièrement fictif : Observatoire des nuages de la planète Luma.
+Le capteur Azur mesure une luminosité imaginaire de 42 unités au matin.
+La station Corail conserve les relevés pendant sept jours fictifs.
+Ces informations servent uniquement à démontrer la recherche documentaire.

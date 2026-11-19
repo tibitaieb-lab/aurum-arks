@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:EvidencePack",
+  "title": "EvidencePack — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "EvidencePack"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "pack_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "role": {
+      "const": "HYPOTHESIS_GENERATOR"
+    },
+    "policy_version": {
+      "const": "J0A_POLICY_0.1_DRAFT"
+    },
+    "corpus_manifest": {
+      "type": "object",
+      "properties": {
+        "manifest_id": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+          },
+          "uniqueItems": true
+        },
+        "fingerprint": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/sha256"
+        },
+        "fingerprint_convention": {
+          "const": "J0A_JSON_V1_PROPOSED"
+        }
+      },
+      "required": [
+        "manifest_id",
+        "source_ids",
+        "fingerprint",
+        "fingerprint_convention"
+      ],
+      "additionalProperties": false
+    },
+    "admitted_evidence_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+      },
+      "uniqueItems": true
+    },
+    "as_of": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "enum": [
+              "SUPPORT",
+              "CONTRADICTION",
+              "CONTEXT"
+            ]
+          },
+          "state": {
+            "enum": [
+              "FOUND",
+              "NOT_FOUND",
+              "NOT_SEARCHED",
+              "ACCESS_DENIED",
+              "INSUFFICIENT_EVIDENCE"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "name",
+          "state",
+          "evidence_ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "retrieval_status": {
+      "const": "NOT_IMPLEMENTED"
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "pack_id",
+    "role",
+    "policy_version",
+    "corpus_manifest",
+    "admitted_evidence_ids",
+    "as_of",
+    "channels",
+    "retrieval_status"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurum-arks:j0a:0.1:SourceManifest",
+  "title": "SourceManifest — ARKS J0A 0.1",
+  "$comment": "Structure qualifiee dans le run 20260915T220106Z_OFFLINE_COMPLETION. Les contraintes inter-objets et la politique sont verifiees separement; ce schema ne prouve ni acces autorise ni fidelite semantique.",
+  "type": "object",
+  "properties": {
+    "contract_type": {
+      "const": "SourceManifest"
+    },
+    "schema_version": {
+      "const": "0.1"
+    },
+    "source_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "document_id": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "document_version": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+    },
+    "acquisition": {
+      "type": "object",
+      "properties": {
+        "acquisition_id": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/id"
+        },
+        "origin_kind": {
+          "enum": [
+            "SYNTHETIC_FIXTURE",
+            "EXTERNAL_PUBLICATION",
+            "INTERNAL_REFERENCE"
+          ]
+        },
+        "origin_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method": {
+          "enum": [
+            "AUTHORED_SYNTHETIC_FIXTURE",
+            "MANUAL_ADMISSION_RESERVED"
+          ]
+        },
+        "acquired_at": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownTime"
+        }
+      },
+      "required": [
+        "acquisition_id",
+        "origin_kind",
+        "origin_reference",
+        "method",
+        "acquired_at"
+      ],
+      "additionalProperties": false
+    },
+    "raw_sha256": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/sha256"
+    },
+    "byte_length": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65536
+    },
+    "declared_media_type": {
+      "enum": [
+        "text/plain",
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/html",
+        "UNSUPPORTED"
+      ]
+    },
+    "encoding": {
+      "enum": [
+        "UTF-8",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "document_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "title": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownText"
+    },
+    "authors": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "const": "KNOWN"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "state",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "language": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownText"
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "rights": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/rights"
+    },
+    "admission_status": {
+      "enum": [
+        "FIXTURE_ONLY",
+        "PENDING_REVIEW",
+        "QUARANTINE",
+        "REJECTED"
+      ]
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "publication_date": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownDate"
+    },
+    "studied_period": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/period"
+    },
+    "revision_date": {
+      "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownDate"
+    },
+    "proven_availability": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "$ref": "urn:aurum-arks:j0a:0.1:common#/$defs/knownDate"
+        },
+        "proof_reference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "date",
+        "proof_reference"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_type",
+    "schema_version",
+    "source_id",
+    "document_id",
+    "document_version",
+    "acquisition",
+    "raw_sha256",
+    "byte_length",
+    "declared_media_type",
+    "encoding",
+    "document_types",
+    "title",
+    "authors",
+    "language",
+    "themes",
+    "rights",
+    "admission_status",
+    "synthetic",
+    "publication_date",
+    "studied_period",
+    "revision_date",
+    "proven_availability"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "admission_status": {
+            "const": "FIXTURE_ONLY"
+          }
+        },
+        "required": [
+          "admission_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "synthetic": {
+            "const": true
+          },
+          "declared_media_type": {
+            "const": "text/plain"
+          },
+          "encoding": {
+            "const": "UTF-8"
+          },
+          "acquisition": {
+            "properties": {
+              "origin_kind": {
+                "const": "SYNTHETIC_FIXTURE"
+              },
+              "method": {
+                "const": "AUTHORED_SYNTHETIC_FIXTURE"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
